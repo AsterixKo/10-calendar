@@ -1,21 +1,9 @@
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { addHours, format, parse, startOfWeek, getDay } from "date-fns";
-import enUS from "date-fns/locale/en-US";
+import { addHours } from "date-fns";
 
-import { Navbar } from "../";
-
-const locales = {
-  "en-US": enUS,
-};
-
-const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales,
-});
+import { CalendarEvent, Navbar } from "../";
+import { localizer, getMessagesES } from "../../helpers";
 
 const events = [
   {
@@ -32,15 +20,33 @@ const events = [
 ];
 
 export const CalendarPage = () => {
+  const eventStylesGetter = (event, start, end, isSelected) => {
+    // console.log({ event, start, end, isSelected });
+
+    const style = {
+      backgroundColor: "#347CF7",
+      borderRadius: "0pc",
+      opacity: 0.8,
+      color: "white",
+    };
+
+    return style;
+  };
   return (
     <>
       <Navbar />
       <Calendar
+        culture="es"
         localizer={localizer}
         events={events}
         startAccessor="start"
         endAccessor="end"
         style={{ height: "calc(100vh - 80px)" }}
+        messages={getMessagesES()}
+        eventPropGetter={eventStylesGetter}
+        components={{
+          event: CalendarEvent
+        }}
       />
     </>
   );
