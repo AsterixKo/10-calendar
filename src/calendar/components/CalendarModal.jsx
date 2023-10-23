@@ -51,29 +51,30 @@ export const CalendarModal = () => {
     >
       <h1> Nuevo evento </h1>
       <hr />
-      <form
-        className="container"
-        style={{ display: "flex", flexDirection: "column" }}
-      >
+      <form className="container">
         <div className="form-group mb-2">
-          <label style={{ display: "block" }}>Fecha y hora inicio</label>
-          <DatePicker
-            selected={formValues.start}
-            className="form-control"
-            onChange={(event) => onDateChanged(event, "start")}
-            dateFormat="Pp"
-          />
+          <label>Fecha y hora inicio</label>
+          <div className="customDatePickerWidth">
+            <DatePicker
+              selected={formValues.start}
+              className="form-control"
+              onChange={(event) => onDateChanged(event, "start")}
+              dateFormat="Pp"
+            />
+          </div>
         </div>
 
         <div className="form-group mb-2">
-          <label style={{ display: "block" }}>Fecha y hora fin</label>
-          <DatePicker
-            minDate={formValues.start}
-            selected={formValues.end}
-            className="form-control"
-            onChange={(event) => onDateChanged(event, "end")}
-            dateFormat="Pp"
-          />
+          <label>Fecha y hora fin</label>
+          <div className="customDatePickerWidth">
+            <DatePicker
+              minDate={formValues.start}
+              selected={formValues.end}
+              className="form-control"
+              onChange={(event) => onDateChanged(event, "end")}
+              dateFormat="Pp"
+            />
+          </div>
         </div>
 
         <hr />
