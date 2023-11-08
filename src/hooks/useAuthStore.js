@@ -24,6 +24,30 @@ export const useAuthStore = () => {
       }, 10);
     }
   };
+
+  const startRegister = async ({ email, password, name }) => {
+    dispatch(onChecking());
+    // console.log({ email, password, name });
+
+    try {
+      const { data } = await calendarApi.post("/auth/new", {
+        email,
+        password,
+        name,
+      });
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("token-init-date", new Date().getTime());
+      dispatch(onLogin({ name: data.name, uid: data.uid }));
+      //   console.log(data);
+    } catch (error) {
+      //   console.log({ error });
+      dispatch(onLogout(error.response.data?.msg || "--"));
+      setTimeout(() => {
+        dispatch(clearErrorMessage());
+      }, 10);
+    }
+  };
+
   return {
     //* Propiedades
     status,
@@ -31,5 +55,6 @@ export const useAuthStore = () => {
     errorMessage,
     //* Métodos
     startLogin,
+    startRegister,
   };
 };
