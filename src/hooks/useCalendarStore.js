@@ -6,6 +6,7 @@ import {
   onUpdateEvent,
 } from "../store";
 import { calendarApi } from "../api";
+import { convertEventsToDateEvents } from "../helpers";
 
 export const useCalendarStore = () => {
   const dispatch = useDispatch();
@@ -26,14 +27,26 @@ export const useCalendarStore = () => {
     } else {
       // Creando
       const { data } = await calendarApi.post("/events", calendarEvent);
-      console.log({ data });
+      // console.log({ data });
       dispatch(onAddNewEvent({ ...calendarEvent, _id: data.evento.id, user }));
     }
   };
 
-  const startDeletingEvent = () => {
+  const startDeletingEvent = async () => {
     // TODO: llegar al backend
     dispatch(onDeleteEvent());
+  };
+
+  const startLoadingEvents = async () => {
+    try {
+      const { data } = await calendarApi.get("/events");
+      // console.log(data);
+      const events = convertEventsToDateEvents(data.eventos);
+      console.log(events);
+    } catch (error) {
+      console.log("error cargando eventos");
+      console.log(error);
+    }
   };
 
   return {
@@ -46,5 +59,6 @@ export const useCalendarStore = () => {
     startDeletingEvent,
     setActiveEvent,
     startSavingEvent,
+    startLoadingEvents,
   };
 };
